@@ -1,0 +1,80 @@
+In bowling there are:
+  - rolls
+  - frames
+  - pins
+
+In a bowling game a player has 10 frames.
+At the beginning of a frame, all 10 pins are placed.
+
+In each frame a player has 2 rolls. If a player:
+  - (case 1) eliminates all the pins in the first roll of a frame, he does a strike and the current frame terminates.
+  - does not eliminate all the pins in the first rolls, he proceeds with the second roll of the frame and if the player:
+    - (case 2) eliminates all the remaining pins, he does a spare and the current frame terminates
+    - (case 3) does not eliminate all the remaining pins, the current frame terminates.
+
+In:
+ - (case 3) the player gets many points as many pins he eliminated
+ - (case 2) the player gets 10 point plus the number of pins eliminated in the next roll
+ - (case 1) the player gets 10 points plus the number of pins eliminated in the next two rolls
+
+Examples:
+1) If a player does three consecutive strikes and two [0,0] frame, he gets:
+  - 30 points for the first frame (10 + 10 + 10), the sum of the strike and the next two rolls (two strikes)
+  - 20 points for the second frame (10 + 10 + 0), the sum of the strike and the next two rolls (one strike and a [0,0] frame)
+  - 10 points for the third frame (10 + 0 + 0) the sum of the strike and the next two rolls
+  - 0 points for the fourth and fifth frames
+2) If a player does a strike, a spare [6,4] and a [2,1] point frame, he gets:
+  - 20 points for the first frame (10 + 6 + 4), the sum of the strike and the next two rolls (6 and 4)
+  - 12 points for the second frame ((6 + 4) + 2), the sum of the spare and the next roll (2)
+  - 3 points for the third frame (2 + 1), the sum of the frame
+3) If a player does a spare [5, 5] and a spare [0,10], he gets:
+  - 10 points for the first frame ((5 + 5) + 0), the sum of the spare and the next frame (0)
+  - 10 points for the second frame, the sum of the frame
+
+The last and tenth frame is and exception:
+  - spare and strikes does not give any bonus
+  - if the player does a spare, the player will have an additional roll in the frame
+  - if the player does a strike at his first rolls, the player will do two additional rolls.
+
+
+Requirement 1
+Given an array of numbers representing a finished game, return an object with the following structure:
+{
+  total: number
+}
+where total is the total point scored in a game.
+
+Requirement 2
+Given an array of numbers representing a finished game, return an object with the following structure:
+{
+  total: null || number
+  valid: boolean,
+  error: null || BOWLING_ERROR
+}
+
+If the array represents a valid game, returns:
+{
+  total: number
+  valid: false,
+  error: null
+}
+
+Otherwise return:
+{
+  total: null
+  valid: true,
+  error: BOWLING_ERROR
+}
+
+Where bowling error is:
+- 'Invalid frame', if the sum of a frame is invalid
+- 'Too many rolls', if the number of rolls is higher than the number of rolls of a valid game
+- 'Not enough rolls', if the number of rolls is not enough to have a valid game
+- 'Invalid roll', if a roll has a value higher than 10 or lower than 0
+
+
+Requirement 3
+Given a an array of numbers representing the game and an array of numbers representing frame numbers,
+returns a number representing the final score of the game, and an array corresponding respectively to the score at the nth frame.
+
+
